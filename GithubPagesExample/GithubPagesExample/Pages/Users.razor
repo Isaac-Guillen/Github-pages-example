@@ -1,0 +1,41 @@
+﻿@page "/users"
+@inject HttpClient HttpClient
+@using Models;
+
+<h3>Users</h3>
+
+<h3>Users</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(response != null)
+        {
+            @foreach (var user in response)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private User[]? response = new User[] { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        response = await HttpClient.GetFromJsonAsync<User[]>("https://jsonplaceholder.typicode.com/users");
+    }
+}
